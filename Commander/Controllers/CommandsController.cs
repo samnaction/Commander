@@ -52,7 +52,8 @@ namespace Commander.Controllers
             _commanderRepo.CreateCommand(writeCommand);
             _commanderRepo.SaveChanges();
 
-            return CreatedAtRoute(nameof(GetCommandById), new { Id = writeCommand.Id }, writeCommand);
+            var readCommand = _mapper.Map<CommandReadDto>(writeCommand);
+            return CreatedAtRoute(nameof(GetCommandById), new { Id = writeCommand.Id }, readCommand);
         }
 
     }
