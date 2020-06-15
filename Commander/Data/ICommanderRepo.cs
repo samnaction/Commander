@@ -13,5 +13,7 @@ namespace Commander.Data
         void CreateCommand(Command command);
         bool SaveChanges();
         void UpdateCommand(Command command);
+
+        void DeleteCommand(Command command);
     }
 }
