@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Commander.Data
 {
@@ -17,7 +16,7 @@ namespace Commander.Data
 
         public void CreateCommand(Command command)
         {
-            if(command == null)
+            if (command == null)
             {
                 throw new ArgumentNullException(nameof(command));
             }

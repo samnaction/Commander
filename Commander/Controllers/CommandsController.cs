@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Commander.Data;
 using Commander.Dtos;
 using Commander.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Commander.Controllers
 {
@@ -24,23 +21,23 @@ namespace Commander.Controllers
             _commanderRepo = commanderRepo;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDto>> GetAllCommands()
         {
             var commandItems = _commanderRepo.GetAllCommands();
-            if(commandItems.Any())
+            if (commandItems.Any())
             {
                 return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandItems));
             }
             return NotFound();
         }
 
-        [HttpGet("{id}", Name="GetCommandById")]
+        [HttpGet("{id}", Name = "GetCommandById")]
         public ActionResult<CommandReadDto> GetCommandById(int id)
         {
             var commandItem = _commanderRepo.GetCommandById(id);
-            if(commandItem != null)
+            if (commandItem != null)
             {
                 return Ok(_mapper.Map<CommandReadDto>(commandItem));
             }
@@ -61,7 +58,7 @@ namespace Commander.Controllers
         public ActionResult UpdateCommand(int id, CommandUpdateDto command)
         {
             var commandItem = _commanderRepo.GetCommandById(id);
-            if(commandItem == null)
+            if (commandItem == null)
             {
                 return NotFound();
             }
@@ -79,11 +76,11 @@ namespace Commander.Controllers
             {
                 return NotFound();
             }
-            
+
             var commandToPatch = _mapper.Map<CommandUpdateDto>(commandItem);
             patchDoc.ApplyTo(commandToPatch, ModelState);
-            
-            if(!TryValidateModel(commandToPatch))
+
+            if (!TryValidateModel(commandToPatch))
             {
                 return ValidationProblem(ModelState);
             }
@@ -91,7 +88,7 @@ namespace Commander.Controllers
             _mapper.Map(commandToPatch, commandItem);
             _commanderRepo.UpdateCommand(commandItem);
             _commanderRepo.SaveChanges();
-            
+
             return NoContent();
         }
 
